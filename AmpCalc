@@ -1,0 +1,53 @@
+//Calculador de Capacitores e de Amplificação em circuitos Amplificadores Simples
+#include<stdio.h>
+#include<math.h>
+#include<conio.h>
+#include<stdlib.h>
+
+int main()
+{
+	float Vin,Vcc,RB1,RB2,RE,RC,RL,FB,RS,Vth,Ve,Ie,Vrc,Vce,Ib,Ganho,Zin,Zin2,Vb,A,Vout,Zout,Zout1,menosum,CB,CC,CE;
+	printf("Digite o valor do Primeiro Resistor de Base (RB1, em Ohms):");
+	scanf("%f",&RB1);
+	printf("Digite o valor do Segundo Resistor de Base(RB2, em Ohms):");
+	scanf("%f",&RB2);
+	printf("Digite o valor do Resistor de Emissor(RE, em Ohms):");
+	scanf("%f",&RE);
+	printf("Digite o valor do Resistor de Coletor(RC, em Ohms):");
+	scanf("%f",&RC);
+	printf("Digite o valor do Resistor acoplamento(RS, em Ohms):");
+	scanf("%f",&RS);
+	printf("Digite o valor da Resistência da Carga no Circuito(RL, em Ohms):");
+	scanf("%f",&RL);	
+	printf("Digite o valor de tensao fonte da utilizada(VCC, em Volts):");
+	scanf("%f",&Vcc);
+	printf("Digite o valor de tensao da entrada de sinal utilizada(Vin, em Milivolts):");
+	scanf("%f",&Vin);
+	printf("Digite o valor da Frequencia de Batimento desejada no seus Capacitores(FB, em Hertz):");
+	scanf("%f",&FB);
+	Vth=((RB2/(RB1+RB2))*Vcc);
+	Ve=(Vth-0.6);
+	Ie=(Ve/RE);
+	Vrc=(RC/Ie);
+	Vce=(Vcc-(Vrc+Ve));
+	Ib=((Vth/RB2)/10);
+	Ganho=(Ie/Ib);		
+	printf("\nGanho de corrente neste Amplificador: %.2f vezes.         ",Ganho);
+	Zin=((1/RB1)+(1/RB2)+((Ganho*(0.025/Ie))));
+	Zin2=(Zin+RS);
+	Vb=((Zin/(RS+Zin)*Vin));
+	A=((RC/(Ganho*(0.025/Ie))));
+	Vout=(A*Vb);
+	printf("\nTensao de saida do circuito: %.2f        ",Vout);
+	printf("\nGanho de tensao: %.2f vezes.         ",A);
+	CB=(1/(6,28318530718*FB*Zin2));
+	printf("\nO Capacitor de Base deve ser de: %.18fF.      ",CB);
+	Zout=((1/RC)+(1/RL));
+	menosum=(-1);
+	Zout1= pow (Zout, menosum);
+	CC=(1/(6,28318530718*FB*Zout1));
+	printf("\nO Capacitor de Coletor deve ser de: %.18fF       ",CC);
+	CE=(1/(6,28318530718*FB*(RE/10)));
+	printf("\nO Capacitor de Emissor deve ser de: %.18fF       ",CE);	
+	system("\npause");	
+}
